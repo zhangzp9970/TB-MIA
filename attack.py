@@ -161,6 +161,7 @@ while global_step < min_step:
         with torch.no_grad():
             out = myclassifier.forward(im)
             after_softmax = F.softmax(out, dim=-1)
+            after_softmax = torch.log(after_softmax)+50
         rim = myinversion.forward(after_softmax)
         mse = F.mse_loss(rim, im)
         with OptimizerManager([optimizer]):
